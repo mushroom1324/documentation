@@ -8,7 +8,7 @@ further_reading:
 ---
 
 {{< callout url="https://www.datadoghq.com/private-beta/log-workspaces/" header="false" >}}
-  Log Workspaces is in private beta.
+  Log Workspaces is in private beta. make a change
 {{< /callout >}}
 
 ## Overview
