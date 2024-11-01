@@ -141,7 +141,7 @@ Follow these steps to create a subscription filter through the AWS console.
 
 ### Validation
 
-Check the **Subscription filters** tab of your log group's detail page in [CloudWatch][1] to confirm that the new Kinesis stream or Amazon Data Firehose stream is subscribed to your log group.
+Click the **Subscription filters** tab of your log group's detail page in [CloudWatch][1] to confirm that the new Kinesis stream or Amazon Data Firehose stream is subscribed to your log group.
 
 ### Find your logs in Datadog
 
