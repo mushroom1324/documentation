@@ -10,6 +10,7 @@ import { DbData } from './db/types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import PrefsBuilder from './components/builder/PrefsBuilder';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -100,7 +101,7 @@ function App() {
           </p>
         </CustomTabPanel>
         <CustomTabPanel value={currentTabIndex} index={1}>
-          <p>Customization creation logic goes here.</p>
+          <PrefsBuilder />
         </CustomTabPanel>
       </Box>
       <div style={{ height: '1200px' }}></div>
