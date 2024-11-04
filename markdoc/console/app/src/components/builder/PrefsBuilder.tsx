@@ -51,13 +51,15 @@ export default function PrefsBuilder() {
         </button>
       )}
       {newPref && (
-        <NewPrefForm
-          pref={newPref}
-          onCancel={() => {
+        <button
+          onClick={() => {
             setNewPref(null);
           }}
-        />
+        >
+          Cancel preference addition
+        </button>
       )}
+      {newPref && <NewPrefForm pref={newPref} />}
     </div>
   );
 }
