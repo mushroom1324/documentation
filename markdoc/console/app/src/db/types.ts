@@ -8,5 +8,12 @@ export type DbData = {
         description?: string;
       }
     >;
+    optionsById: Record<
+      string,
+      {
+        id: string;
+        display_name: string;
+      }
+    >;
   };
 };

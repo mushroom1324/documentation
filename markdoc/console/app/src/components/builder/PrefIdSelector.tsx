@@ -36,12 +36,12 @@ export default function PrefIdSelector(props: {
   };
 
   return (
-    <div style={{ marginBottom: '20px' }}>
+    <div>
       <p>What customer characteristic is being chosen?</p>
       <Autocomplete
         disablePortal
         options={prefOptions}
-        sx={{ width: '100%', marginBottom: '30px ' }}
+        sx={{ width: '100%', marginBottom: '15px ' }}
         renderInput={(params) => <TextField {...params} />}
         onChange={handlePrefChange}
       />
