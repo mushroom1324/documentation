@@ -1,3 +1,12 @@
 export type DbData = {
-  msg: string;
+  allowlist: {
+    prefsById: Record<
+      string,
+      {
+        id: string;
+        display_name: string;
+        description?: string;
+      }
+    >;
+  };
 };

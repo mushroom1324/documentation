@@ -66,16 +66,12 @@ const ExampleWrapper = styled.div`
 function App() {
   const [count, setCount] = useState(0);
   const [rating, setRating] = useState<number | null>(null);
-  const [dbData, setDbData] = useState<DbData>(dbDataOnDisk);
+  const [dbData, _setDbData] = useState<DbData>(dbDataOnDisk);
 
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
 
   const handleTabChange = (_event: React.SyntheticEvent, currentTabIndex: number) => {
     setCurrentTabIndex(currentTabIndex);
-  };
-
-  const updateDbData = (newData: DbData) => {
-    setDbData(newData);
   };
 
   return (
@@ -101,7 +97,7 @@ function App() {
           </p>
         </CustomTabPanel>
         <CustomTabPanel value={currentTabIndex} index={1}>
-          <PrefsBuilder />
+          <PrefsBuilder allowlist={dbData.allowlist} />
         </CustomTabPanel>
       </Box>
       <div style={{ height: '1200px' }}></div>
@@ -165,20 +161,6 @@ function App() {
           as a prop, and use the data in some way.
         </p>
         <pre>{JSON.stringify(dbData, null, 2)}</pre>
-        <p>
-          This data can be updated in memory using <code>setDbData()</code>, but does not
-          persist between page loads.
-        </p>
-        <p>Press the button below to update the data shown above.</p>
-        <Button
-          onClick={() => {
-            updateDbData({
-              msg: 'Hello, entire universe!'
-            });
-          }}
-        >
-          Update!
-        </Button>
       </ExampleWrapper>
     </>
   );

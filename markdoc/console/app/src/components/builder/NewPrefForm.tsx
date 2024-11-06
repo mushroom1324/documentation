@@ -13,14 +13,26 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import { DbData } from '../../db/types';
 
-function PrefIdSelector(props: { onCompleted: () => void; pref: CreatedPref }) {
+function PrefIdSelector(props: {
+  allowlist: DbData['allowlist'];
+  onCompleted: () => void;
+  pref: CreatedPref;
+}) {
+  /*
   const prefOptions = [
     { label: 'host' },
     { label: 'programming lang' },
     { label: 'os' },
     { label: 'database' }
   ];
+  */
+
+  const prefOptions = Object.keys(props.allowlist.prefsById).map((prefId) => {
+    const pref = props.allowlist.prefsById[prefId];
+    return { label: pref.display_name, value: pref.id };
+  });
 
   return (
     <div>
@@ -70,8 +82,8 @@ function PrefIdSelector(props: { onCompleted: () => void; pref: CreatedPref }) {
   );
 }
 
-function PrefBuilder(props: { pref: CreatedPref }) {
-  const { pref } = props;
+function PrefBuilder(props: { pref: CreatedPref; allowlist: DbData['allowlist'] }) {
+  const { pref, allowlist } = props;
   const steps = ['Choose the pref', 'Name the option set', 'Add options'];
 
   const [activeStep, setActiveStep] = React.useState(0);
@@ -113,7 +125,9 @@ function PrefBuilder(props: { pref: CreatedPref }) {
       ) : (
         <React.Fragment>
           {/* The contents of each step */}
-          {activeStep === 0 && <PrefIdSelector pref={pref} onCompleted={handleNext} />}
+          {activeStep === 0 && (
+            <PrefIdSelector pref={pref} onCompleted={handleNext} allowlist={allowlist} />
+          )}
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
               color="inherit"
@@ -134,11 +148,14 @@ function PrefBuilder(props: { pref: CreatedPref }) {
   );
 }
 
-export default function NewPref(props: { pref: CreatedPref }) {
+export default function NewPrefForm(props: {
+  pref: CreatedPref;
+  allowlist: DbData['allowlist'];
+}) {
   return (
     <div style={{ borderTop: '1px solid black', marginTop: '30px' }}>
       <h2>Add a new page preference</h2>
-      <PrefBuilder pref={props.pref} />
+      <PrefBuilder pref={props.pref} allowlist={props.allowlist} />
     </div>
   );
 }

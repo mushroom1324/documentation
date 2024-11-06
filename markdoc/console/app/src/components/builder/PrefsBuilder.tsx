@@ -2,8 +2,9 @@ import { useState } from 'react';
 import PrefsTable from './PrefsTable';
 import { CreatedPref } from './types';
 import NewPrefForm from './NewPrefForm';
+import { DbData } from '../../db/types';
 
-export default function PrefsBuilder() {
+export default function PrefsBuilder(props: { allowlist: DbData['allowlist'] }) {
   const initNewPref = (): CreatedPref => {
     return {
       id: '',
@@ -59,7 +60,7 @@ export default function PrefsBuilder() {
           Cancel preference addition
         </button>
       )}
-      {newPref && <NewPrefForm pref={newPref} />}
+      {newPref && <NewPrefForm pref={newPref} allowlist={props.allowlist} />}
     </div>
   );
 }
