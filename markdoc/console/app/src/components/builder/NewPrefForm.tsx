@@ -6,7 +6,6 @@ import Step from '@mui/material/Step';
 import StepContent from '@mui/material/StepContent';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Accordion from '@mui/material/Accordion';
@@ -22,7 +21,9 @@ function PrefIdSelector(props: {
 }) {
   const prefOptions = Object.keys(props.allowlist.prefsById).map((prefId) => {
     const pref = props.allowlist.prefsById[prefId];
-    const label = `${pref.display_name} (\`${pref.id}\`) ${pref.description || ''}`;
+    const label = `${pref.display_name} (\`${pref.id}\`)${pref.description && ':'} ${
+      pref.description || ''
+    }`;
     return { label, value: pref.id };
   });
 
@@ -52,6 +53,7 @@ function PrefIdSelector(props: {
       />
       <Accordion>
         <AccordionSummary
+          sx={{ fontSize: '0.9em' }}
           expandIcon={<ArrowDropDownIcon />}
           aria-controls="help-me-choose-content"
           id="help-me-choose"
@@ -79,6 +81,7 @@ function PrefIdSelector(props: {
       </Accordion>
       <Accordion>
         <AccordionSummary
+          sx={{ fontSize: '0.9em' }}
           expandIcon={<ArrowDropDownIcon />}
           aria-controls="info-usage-content"
           id="info-usage"
@@ -143,7 +146,6 @@ function PrefBuilder(props: {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <p>Local pref: {JSON.stringify(localPref, null, 2)}</p>
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
           <Step key={step.label}>
@@ -182,6 +184,9 @@ function PrefBuilder(props: {
           </Step>
         ))}
       </Stepper>
+      <div style={{ marginTop: '100px', padding: '20px', border: '2px solid red' }}>
+        <p>Local pref: {JSON.stringify(localPref, null, 2)}</p>
+      </div>
     </Box>
   );
 }

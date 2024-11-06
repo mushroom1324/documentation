@@ -27,7 +27,7 @@ export const dbData = {
         id: 'host',
         display_name: 'Host',
         description:
-          'Hosting platform, such as AWS or GCP. Can also refer to containers like Kubernetes.'
+          'Hosting platform, such as AWS. Can also refer to containers like Kubernetes.'
       },
       host_type: {
         id: 'host_type',
