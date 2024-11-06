@@ -3,7 +3,6 @@ import reactLogo from './assets/react.svg';
 import './App.css';
 import styled from '@emotion/styled';
 import Rating from '@mui/material/Rating';
-import Greeter from './components/Greeter';
 // import the data from db.json
 import { dbData as dbDataOnDisk } from './db/data';
 import { DbData } from './db/types';
@@ -141,10 +140,6 @@ function App() {
             setRating(newRating);
           }}
         />
-      </ExampleWrapper>
-      <ExampleWrapper>
-        <h3>Imported React component</h3>
-        <Greeter />
       </ExampleWrapper>
       <ExampleWrapper>
         <h3>Import data</h3>

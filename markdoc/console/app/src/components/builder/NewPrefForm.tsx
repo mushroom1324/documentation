@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CreatedPref } from './types';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -13,12 +13,11 @@ import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { DbData } from '../../db/types';
 
 function PrefIdSelector(props: {
   allowlist: DbData['allowlist'];
-  onCompleted: () => void;
+  onCompleted: (pref: CreatedPref) => void;
   pref: CreatedPref;
 }) {
   const prefOptions = Object.keys(props.allowlist.prefsById).map((prefId) => {
@@ -27,22 +26,23 @@ function PrefIdSelector(props: {
     return { label, value: pref.id };
   });
 
-  const [draftPref, setDraftPref] = React.useState<CreatedPref>(props.pref);
+  const [localPref, setLocalPref] = useState<CreatedPref>(props.pref);
   const handlePrefChange = (
     _event: React.SyntheticEvent,
     selection: { label: string; value: string } | null
   ) => {
     const prefId = selection?.value || '';
-    if (prefId === draftPref.id) {
+    if (prefId === localPref.id) {
       return;
     }
-    setDraftPref({ ...draftPref, id: prefId });
+    const updatedLocalPref = { ...localPref, id: prefId };
+    setLocalPref(updatedLocalPref);
+    props.onCompleted(updatedLocalPref);
   };
 
   return (
-    <div>
-      {JSON.stringify(draftPref)}
-      <p>What high-level customer characteristic is being chosen?</p>
+    <div style={{ marginBottom: '20px' }}>
+      <p>What customer characteristic is being chosen?</p>
       <Autocomplete
         disablePortal
         options={prefOptions}
@@ -106,11 +106,32 @@ function PrefIdSelector(props: {
   );
 }
 
-function PrefBuilder(props: { pref: CreatedPref; allowlist: DbData['allowlist'] }) {
+interface Step {
+  label: string;
+  completed: boolean;
+}
+
+function PrefBuilder(props: {
+  pref: CreatedPref;
+  allowlist: DbData['allowlist'];
+  // onPrefChange: (pref: CreatedPref) => void;
+}) {
   const { pref, allowlist } = props;
-  const steps = ['Choose the pref', 'Choose the options'];
+
+  const [localPref, setLocalPref] = useState<CreatedPref>(pref);
+
+  const [steps, setSteps] = useState<Step[]>([
+    { label: 'Choose the pref', completed: false },
+    { label: 'Choose the options', completed: false }
+  ]);
 
   const [activeStep, setActiveStep] = React.useState(0);
+
+  const markStepCompleted = (stepIndex: number) => {
+    const updatedSteps = [...steps];
+    updatedSteps[stepIndex].completed = true;
+    setSteps(updatedSteps);
+  };
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -120,39 +141,42 @@ function PrefBuilder(props: { pref: CreatedPref; allowlist: DbData['allowlist'] 
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
   return (
     <Box sx={{ width: '100%' }}>
+      <p>Local pref: {JSON.stringify(localPref, null, 2)}</p>
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
-          <Step key={step}>
-            <StepLabel
-              optional={
-                index === steps.length - 1 ? (
-                  <Typography variant="caption">Last step</Typography>
-                ) : null
-              }
-            >
-              {step}
-            </StepLabel>
+          <Step key={step.label}>
+            <StepLabel>{step.label}</StepLabel>
             <StepContent>
               {activeStep === 0 && (
                 <PrefIdSelector
                   pref={pref}
-                  onCompleted={handleNext}
+                  onCompleted={(pref: CreatedPref) => {
+                    markStepCompleted(0);
+                    setLocalPref(pref);
+                  }}
                   allowlist={allowlist}
                 />
               )}
               <Box sx={{ mb: 2 }}>
-                <Button variant="contained" onClick={handleNext} sx={{ mt: 1, mr: 1 }}>
+                <Button
+                  variant="contained"
+                  disabled={!step.completed}
+                  onClick={handleNext}
+                  sx={{ mt: 1, mr: 1 }}
+                >
                   {index === steps.length - 1 ? 'Finish' : 'Continue'}
                 </Button>
-                <Button disabled={index === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                  Back
-                </Button>
+                {activeStep !== 0 && (
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    sx={{ mt: 1, mr: 1 }}
+                  >
+                    Back
+                  </Button>
+                )}
               </Box>
             </StepContent>
           </Step>
@@ -166,9 +190,11 @@ export default function NewPrefForm(props: {
   pref: CreatedPref;
   allowlist: DbData['allowlist'];
 }) {
+  const [localPref, setLocalPref] = useState<CreatedPref>(props.pref);
+
   return (
     <div style={{ borderTop: '1px solid black', marginTop: '30px' }}>
-      <h2>Add a new page preference</h2>
+      <h2>Add a choice to the page</h2>
       <PrefBuilder pref={props.pref} allowlist={props.allowlist} />
     </div>
   );

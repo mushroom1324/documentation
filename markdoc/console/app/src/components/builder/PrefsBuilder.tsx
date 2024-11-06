@@ -48,7 +48,7 @@ export default function PrefsBuilder(props: { allowlist: DbData['allowlist'] }) 
             setNewPref(initNewPref());
           }}
         >
-          Add preference
+          Add another choice to the page
         </button>
       )}
       {newPref && (
@@ -57,7 +57,7 @@ export default function PrefsBuilder(props: { allowlist: DbData['allowlist'] }) 
             setNewPref(null);
           }}
         >
-          Cancel preference addition
+          Cancel choice addition
         </button>
       )}
       {newPref && <NewPrefForm pref={newPref} allowlist={props.allowlist} />}
