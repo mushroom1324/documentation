@@ -46,6 +46,11 @@ export class MarkdocHugoIntegration {
       langs: this.hugoConfig.languages
     });
 
+    console.log(
+      '\n\nEn allowlist loaded:',
+      JSON.stringify(this.allowlistsByLang.en.prefsById, null, 2)
+    );
+
     // Load English pref configuration
     this.prefOptionsConfigByLang = {
       en: YamlConfigParser.loadPrefsConfigFromLangDir({
