@@ -20,57 +20,80 @@ function PrefIdSelector(props: {
   onCompleted: () => void;
   pref: CreatedPref;
 }) {
-  /*
-  const prefOptions = [
-    { label: 'host' },
-    { label: 'programming lang' },
-    { label: 'os' },
-    { label: 'database' }
-  ];
-  */
-
   const prefOptions = Object.keys(props.allowlist.prefsById).map((prefId) => {
     const pref = props.allowlist.prefsById[prefId];
-    return { label: pref.display_name, value: pref.id };
+    const label = `${pref.display_name} (\`${pref.id}\`) ${pref.description || ''}`;
+    return { label, value: pref.id };
   });
+
+  const [draftPref, setDraftPref] = React.useState<CreatedPref>(props.pref);
+  const handlePrefChange = (
+    _event: React.SyntheticEvent,
+    selection: { label: string; value: string } | null
+  ) => {
+    const prefId = selection?.value || '';
+    if (prefId === draftPref.id) {
+      return;
+    }
+    setDraftPref({ ...draftPref, id: prefId });
+  };
 
   return (
     <div>
+      {JSON.stringify(draftPref)}
       <p>What high-level customer characteristic is being chosen?</p>
       <Autocomplete
         disablePortal
         options={prefOptions}
-        sx={{ width: 300, marginBottom: '30px ' }}
+        sx={{ width: '100%', marginBottom: '30px ' }}
         renderInput={(params) => <TextField {...params} />}
+        onChange={handlePrefChange}
       />
-      <p>
-        For example, you would choose <code>host</code> from the list above if the user is
-        selecting ...
-      </p>
-      <ul>
-        <li>whether they're running the Agent on AWS or GCP</li>
-        <li>whether their instance of Postgres is hosted on AWS or Azure</li>
-        <li>which cloud host to configure for cost management features</li>
-      </ul>
-      <p>
-        Each of the above choices is distinct, but each one chooses the user's{' '}
-        <code>host</code>.
-      </p>
       <Accordion>
         <AccordionSummary
           expandIcon={<ArrowDropDownIcon />}
-          aria-controls="panel1-content"
-          id="panel1-header"
+          aria-controls="help-me-choose-content"
+          id="help-me-choose"
+        >
+          Help me choose
+        </AccordionSummary>
+        <AccordionDetails>
+          <p>
+            The pref ID is a category used to group similar choices together, so the
+            customer's preference can travel between those choices, and the customer does
+            not have to repeat themselves. For example, all three of the choices below
+            would use the
+            <code>host</code> pref ID:
+          </p>
+          <ul>
+            <li>whether they're running the Agent on AWS or GCP</li>
+            <li>whether their instance of Postgres is hosted on AWS or Azure</li>
+            <li>which cloud host to configure for cost management features</li>
+          </ul>
+          <p>
+            While each of the above choices is distinctly unique, all of them represent
+            the choice of a <code>host</code>, so that is the pref ID used.
+          </p>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ArrowDropDownIcon />}
+          aria-controls="info-usage-content"
+          id="info-usage"
         >
           How is this information used?
         </AccordionSummary>
         <AccordionDetails>
           <p>
-            The high-level customer characteristic (aka the <strong>pref ID</strong>)
-            helps the customer's choices travel between pages. If they choose AWS as their
-            host on one page, we also apply this selection to different choices on other
-            pages when appropriate, so the customer enjoys a customized experience without
-            needing to configure each page individually.
+            The pref ID is a category used to group similar choices together, so the
+            customer's preference can travel between those choices, and the customer does
+            not have to repeat themselves.
+          </p>
+          <p>
+            If they choose AWS as their host on one page, we also apply this selection to
+            different choices on other pages when appropriate, so the customer enjoys a
+            customized experience without needing to configure each page individually.
           </p>
           <p>
             The pref ID also appears in the URL, such as{' '}

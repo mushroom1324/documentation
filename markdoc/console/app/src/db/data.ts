@@ -23,10 +23,6 @@ export const dbData = {
         description:
           'Any Agent version regardless of its granularity, such as 7, 6.32.1, or ~7.0.0.'
       },
-      agent_host: {
-        id: 'agent_host',
-        display_name: 'Agent host'
-      },
       host: {
         id: 'host',
         display_name: 'Host',
