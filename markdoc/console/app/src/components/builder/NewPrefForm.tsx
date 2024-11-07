@@ -16,10 +16,19 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import DangerousIcon from '@mui/icons-material/Dangerous';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-const OptionsSelector = () => {
+const OptionsSelector = (props: { pref: CreatedPref }) => {
+  const [localPref, setLocalPref] = useState<CreatedPref>(props.pref);
+
+  const handleOptionsSetNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const updatedLocalPref = { ...localPref, optionSetId: value };
+    setLocalPref(updatedLocalPref);
+  };
+
   return (
     <div>
       <div>
+        <div></div>
         <p>
           Give this set of options a name, such as <code>dbm_database_options</code>.
         </p>
@@ -29,6 +38,7 @@ const OptionsSelector = () => {
             variant="outlined"
             label="options set name"
             sx={{ width: '100%', marginBottom: '15px ' }}
+            onChange={handleOptionsSetNameChange}
           />
         </Box>
         <Accordion>
