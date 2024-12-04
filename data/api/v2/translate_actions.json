@@ -1375,6 +1375,36 @@
     "request_description": "",
     "request_schema_description": "The form data submitted to upload IdP metadata"
   },
+  "ListSCIMGroups": {
+    "description": "List SCIM groups in the organization.\nResults are paginated by `startIndex` and `count` parameters.\nResults can be narrowed down by the `filter` parameter.",
+    "summary": "List SCIM groups"
+  },
+  "CreateSCIMGroup": {
+    "description": "Create a new SCIM group.\nThe group may contain members.",
+    "summary": "Create SCIM group",
+    "request_description": "",
+    "request_schema_description": "Definition of a SCIM group."
+  },
+  "DeleteSCIMGroup": {
+    "description": "Delete the SCIM group with the given `group_id`.",
+    "summary": "Delete SCIM group"
+  },
+  "GetSCIMGroup": {
+    "description": "Get a single SCIM group using the `group_id`.",
+    "summary": "Get SCIM group"
+  },
+  "PatchSCIMGroup": {
+    "description": "Patch the SCIM group with the given `group_id`.",
+    "summary": "Patch SCIM group",
+    "request_description": "",
+    "request_schema_description": "Request object for patching a SCIM group."
+  },
+  "UpdateSCIMGroup": {
+    "description": "Update the SCIM group with the given `group_id`.",
+    "summary": "Update SCIM group",
+    "request_description": "",
+    "request_schema_description": "Definition of a SCIM group."
+  },
   "ListScorecardOutcomes": {
     "description": "Fetches all rule outcomes.",
     "summary": "List all rule outcomes"

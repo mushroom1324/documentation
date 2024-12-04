@@ -7164,6 +7164,82 @@ menu:
           - ListRumMetrics
         unstable: []
         order: 1
+    - name: Scim
+      url: /api/latest/scim/
+      identifier: scim
+      generated: true
+    - name: Update SCIM group
+      url: '#update-scim-group'
+      identifier: scim-update-scim-group
+      parent: scim
+      generated: true
+      params:
+        versions:
+          - v2
+        operationids:
+          - UpdateSCIMGroup
+        unstable: []
+        order: 1
+    - name: Patch SCIM group
+      url: '#patch-scim-group'
+      identifier: scim-patch-scim-group
+      parent: scim
+      generated: true
+      params:
+        versions:
+          - v2
+        operationids:
+          - PatchSCIMGroup
+        unstable: []
+        order: 3
+    - name: Get SCIM group
+      url: '#get-scim-group'
+      identifier: scim-get-scim-group
+      parent: scim
+      generated: true
+      params:
+        versions:
+          - v2
+        operationids:
+          - GetSCIMGroup
+        unstable: []
+        order: 4
+    - name: Delete SCIM group
+      url: '#delete-scim-group'
+      identifier: scim-delete-scim-group
+      parent: scim
+      generated: true
+      params:
+        versions:
+          - v2
+        operationids:
+          - DeleteSCIMGroup
+        unstable: []
+        order: 2
+    - name: Create SCIM group
+      url: '#create-scim-group'
+      identifier: scim-create-scim-group
+      parent: scim
+      generated: true
+      params:
+        versions:
+          - v2
+        operationids:
+          - CreateSCIMGroup
+        unstable: []
+        order: 5
+    - name: List SCIM groups
+      url: '#list-scim-groups'
+      identifier: scim-list-scim-groups
+      parent: scim
+      generated: true
+      params:
+        versions:
+          - v2
+        operationids:
+          - ListSCIMGroups
+        unstable: []
+        order: 6
     - name: Sensitive Data Scanner
       url: /api/latest/sensitive-data-scanner/
       identifier: sensitive-data-scanner
